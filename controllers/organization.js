@@ -43,7 +43,11 @@ router.post('/', (req, res) => {
         orgName: req.body.orgName,
         contactPerson: req.body.contactPerson,
         contactEmail: req.body.contactEmail,
+<<<<<<< HEAD
         contactPhone: req.body.contactPhone,
+=======
+        contactPhone: req.body.contactPhone
+>>>>>>> c1f8cc2407186a3aff724ea0cf3d3575cfd61825
     })
         .then(organizations => {
             console.log('New organization =>>', organizations);
@@ -55,14 +59,24 @@ router.post('/', (req, res) => {
         });
 });
 
-router.put("/:id", async (req, res) => {
-    try {
-        const data = await Organization.findById(req.params.id);
-        res.json({ data: data });
-    } catch (error) {
-        console.log(error);
-    }
-});
+
+router.put("/:id", (req, res) => {
+    Organization.findOneAndUpdate({
+        orgName: req.body.orgName,
+        contactPerson: req.body.contactPerson,
+        contactEmail: req.body.contactEmail,
+        contactPhone: req.body.contactPhone,
+        createdAt: req.body.createdAt
+    })
+      .then((organizations) => {
+        console.log("Updated org =>>",organizations);
+        res.json({ organizations: organizations});
+      })
+      .catch((error) => {
+        console.log("error", error);
+        res.json({ message: "Error ocurred, please try again" });
+      });
+  });
 
 router.delete('/:id', (req, res) => {
     Organization.findOneAndRemove({ id: req.params.id })
