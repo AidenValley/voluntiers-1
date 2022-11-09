@@ -23,6 +23,16 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get('/opportunitiesdisplay', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  console.log('====> inside /profile');
+  console.log(req.body);
+  console.log('====> user')
+  console.log(req.user);
+  // const { id }  = req.user; // object with user object inside
+  const {name, date, description, users, categories, hours} = await Opportunity.findById(id);
+  res.json({ name, date, description, users, categories, hours });
+});
+
 router.get("/:id", (req, res) => {
   console.log("find opportunities by", req.params.id);
   Opportunity.findOne({
